@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleSign.css">
+    <style>
+        
+    </style>
+    <title>Sign Up Form</title>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <!-- You can replace the image URL with your own random image -->
+            <img class="random-image" src="https://source.unsplash.com/random" alt="Random Image">
+            <div class="text-overlay">Shubham Traders</div>
+        </div>
+        <div class="form-container">
+            <form method="post" action="register">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="username" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="agree">I agree to the terms and conditions:</label>
+                <input type="checkbox" id="agree" name="checkbox" required>
+
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

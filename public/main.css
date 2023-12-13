@@ -1,0 +1,27 @@
+.navbar-custom{
+    background-color:  gray;
+}
+#carouselExample {
+    margin-top: 66px; /* Adjust the margin-top value to change the position */
+}
+.custom-btn{
+    border: none;
+    background-color: aliceblue;
+    color: black;
+}
+.custom-btn:hover{
+    background-color: rgb(159, 159, 159);
+}
+.custom-link{
+    color: black;
+}
+#product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+.input-group {
+    width: 82%; /* Adjust the width as needed */
+    border-radius:10px ;
+}

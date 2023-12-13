@@ -1,0 +1,107 @@
+@media (max-width:430px) {
+    .circle{
+        top: 20px;
+        left: 37.5%;
+    }
+    .container{
+        margin-top: 65px;
+        height: 490px;
+    }
+    .sign{
+        top: 135px;
+        left: 41.5%;
+    }
+    .input{
+        top: 194px;
+        left: 3%;
+    
+    }
+    .forgot{
+        top: 500px;
+    left: 58%;
+    }
+    .btn{
+        top: 438px;
+    left: 16.2%;
+    }
+    .signUp {
+        position: absolute;
+        top: 75.6%;
+        left: 18%;
+    }
+}
+@media (min-width:432px) and (max-width:769px) {
+/* @media only screen and (max-width:769px) { */
+    .circle{
+        left: 40.5%;
+    }
+    .sign{
+        top: 168px;
+        left: 42%;
+    
+    }
+    .input{
+        top: 246px;
+        left: 17%;
+    }
+    .btn{
+        top: 476px;
+        left: 153px;
+    }
+    .forgot{
+        top: 533px;
+
+    }
+    .signUp {
+        position: absolute;
+        top: 71.3%;
+        left: 26%;
+    }
+}
+@media (min-width:770px) and (max-width:1026px) {
+    .circle{
+
+        left: 43.5%;
+    }
+    .sign{
+        top: 171px;
+        left: 44.7%;
+    }
+    .input{
+        top: 232px;
+        left: 30.5%;
+    }
+    .btn{
+        top: 467px;
+    left: 363px;
+    }
+    .signUp {
+        position: absolute;
+        top: 79%;
+        left: 36%;
+    }
+    
+}
+@media (min-width:1026px) and (max-width:1443px){
+    .sign{
+        top: 173px;
+        left: 47.5%;
+    }
+    .btn{
+        top: 475px;
+        left: 39.9%;
+    
+    }
+    .input{
+        top: 247px;
+        left: 36.5%;
+    }
+    .forgot{
+        top: 533px;
+    }
+    .signUp {
+        position: absolute;
+        top: 80.5%;
+        left: 40%;
+    }
+}

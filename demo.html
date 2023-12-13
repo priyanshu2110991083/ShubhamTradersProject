@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Input Value</title>
+</head>
+<body>
+
+    <input class="form-control mr-sm-2" name="search" type="text" placeholder="Search" aria-label="Search" id="search">
+    <button onclick="getValue()">Get Value</button>
+
+    <script>
+        function getValue() {
+            // Get the input element by its ID
+            var inputValue = document.getElementById('search').value;
+
+            // Log or use the value
+            console.log('Input Value:', inputValue);
+
+            // You can do something with the value here
+            alert('Input Value: ' + inputValue);
+        }
+    </script>
+
+</body>
+</html>
