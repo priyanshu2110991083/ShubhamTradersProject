@@ -33,7 +33,7 @@ const url = "http://localhost:300/store.json"
             price.textContent = `₹${product.price.toFixed(2)}`;
 
             const buyNow = document.createElement('a');
-            buyNow.href = product.buyNow;
+            buyNow.href = "buynow.html";
             buyNow.textContent = 'Buy Now';
 
             productCard.appendChild(image);
