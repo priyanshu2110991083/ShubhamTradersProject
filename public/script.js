@@ -33,14 +33,22 @@ function renderProducts(productList) {
         price.textContent = `₹${product.price.toFixed(2)}`;
 
         const buyNow = document.createElement('a');
-        buyNow.href = "buynow.html";
+        buyNow.href = "Payment.html";
         buyNow.textContent = 'Buy Now';
+        
+        const Add_To_Cart = document.createElement('button');
+        Add_To_Cart.textContent = 'Add To Cart';
+        Add_To_Cart.style.borderRadius="10px"
+        Add_To_Cart.style.marginLeft="10px"
+        Add_To_Cart.style.backgroundColor="skyblue"
+        
 
         productCard.appendChild(image);
         productCard.appendChild(name);
         productCard.appendChild(use);
         productCard.appendChild(price);
         productCard.appendChild(buyNow);
+        productCard.appendChild(Add_To_Cart);
 
         productContainer.appendChild(productCard);
         

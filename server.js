@@ -77,7 +77,6 @@ app.post("/reset",async (req,res)=>{
         res.send("Use Strong Password, use underscores '_' and '@' in it");
     }
     const user=await sch.findOne().where('username').equals(data.username);
-    console.log({user}); 
     if(!user){
         res.send("please register first")
         return;
@@ -97,7 +96,7 @@ app.post("/register", async (req,res)=>{
     const database = await sch.find();
     const data=req.body;
     let flag=0
-    if(!data.username || !data.password || !data.email || !data.checkbox){
+    if(!data.username || !data.password || !data.email ||!data.house_number || !data.villageTown || !data.pincode || !data.state || !data.checkbox){
         flag=1;
         res.send("please enter all the credentials");
     }
@@ -111,7 +110,7 @@ app.post("/register", async (req,res)=>{
             }
             if(data.email==database[i].email){
                 bo=true;
-                res.send("Account already exist with this email")
+                res.send("Account already exist with this email");
                 break;
             }
         }
@@ -120,9 +119,6 @@ app.post("/register", async (req,res)=>{
             res.send("Use Strong Password, use underscores '_' and '@' in it and length must > 8");
         }
         if(bo==false){
-
-            // database.push(data);
-            // fs.writeFileSync("./public/userData.json",JSON.stringify(database))
             await sch.create(data);
             res.send("Registered");
         }
