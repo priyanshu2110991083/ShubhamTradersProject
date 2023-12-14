@@ -31,6 +31,7 @@ app.use(express.static(__dirname + "/public"))
 
 
 app.use(express.urlencoded())
+
 app.get("/store.json",(req,res)=>{
     res.sendFile(__dirname+"/public/store.json")
 })
