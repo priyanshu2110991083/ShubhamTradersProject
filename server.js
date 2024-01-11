@@ -5,9 +5,9 @@ const sch=require("./models/userData.js")
 const str=require("./models/storeData.js")
 mongoose.connect("mongodb://127.0.0.1:27017/ShubhamTraders")
 const cors=require("cors")
-const fs=require("fs");
-const UserdatabaseJSON=require("./public/userData.json")
-const StoredatabaseJSON=require("./public/store.json")
+const bcrypt=require("bcrypt")
+
+
 
 async function main() {
     const storeItemsInDatabase = await str.find();
@@ -27,13 +27,14 @@ app.use(cors())
 app.listen(300,()=>{
     console.log("http://localhost:300/");
 })
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/public"))      //to send public folder on /
 
 
 app.use(express.urlencoded())
 
-app.get("/store.json",(req,res)=>{
-    res.sendFile(__dirname+"/public/store.json")
+app.get("/strs",async (req,res)=>{
+    const notes = await str.find()
+    res.send(notes)
 })
 app.get("/",(req,res)=>{
     res.sendFile(__dirname+"/index.html");
@@ -46,15 +47,19 @@ app.post("/login",async (req,res)=>{
         res.send("pls enter correct username and password")
     }
     let f=0;
-    for(let i in database){
-        if(database[i].username==data.username && database[i].password!=data.password){
-            res.send("Enter Correct Password")
-        }
-        if(database[i].username==data.username && database[i].password==data.password){
-            f=1;
-            res.send("Logged In")
-        }
+    const userTry=(await sch.find().where('username').equals(data.username))[0] ;
+    console.log(userTry)
+    const isTrue=await bcrypt.compare(data.password, userTry.password)
+
+    if(isTrue && userTry){
+        f=1;
+        res.send("Logged In")
     }
+    if(userTry && isTrue==false){
+        f=1;
+        res.send("Enter Correct Password")
+    }
+
     if(f==0){
 
         res.send("please register first")
@@ -82,13 +87,11 @@ app.post("/reset",async (req,res)=>{
         res.send("please register first")
         return;
     }
-
-    user.password = data.password;
+    const saltRound=10  //it will encrypt password 10 times
+    const hashedPwd=await bcrypt.hash(data.password,saltRound)
+    user.password = hashedPwd;
     await user.save();
     res.send("Password Reset Successfully")
-
-    // res.sendFile(__dirname+"/index.html")
-    
 })
 
 
@@ -120,6 +123,9 @@ app.post("/register", async (req,res)=>{
             res.send("Use Strong Password, use underscores '_' and '@' in it and length must > 8");
         }
         if(bo==false){
+            const saltRound=10  //it will encrypt password 10 times
+            const hashedPwd=await bcrypt.hash(data.password,saltRound)
+            data.password=hashedPwd
             await sch.create(data);
             res.send("Registered");
         }
@@ -154,7 +160,6 @@ app.get("/add",async (req,res)=>{
             "buyNow":buyNow
         }
     
-
     await str.create(object)
     res.send("added")
 })

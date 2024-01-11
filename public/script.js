@@ -1,19 +1,15 @@
-const url = "http://localhost:300/store.json"
+const url = "http://localhost:300/strs"
 
-
-    const productContainer = document.getElementById('product-container');
-    const searchInput = document.getElementById('search-input');
+const productContainer = document.getElementById('product-container');
+const searchInput = document.getElementById('search-input');
 
 function renderProducts(productList) {
-    console.log({productList}); 
 
     productList.forEach(p => console.log(p)); 
     
     productContainer.innerHTML = '';
 
     productList.forEach(product => {
-        console.log("in for each"); 
-        console.log(product.name); 
         const productCard = document.createElement('div');
         productCard.classList.add('col-md-4');
 
@@ -36,11 +32,11 @@ function renderProducts(productList) {
         buyNow.href = "Payment.html";
         buyNow.textContent = 'Buy Now';
         
-        const Add_To_Cart = document.createElement('button');
-        Add_To_Cart.textContent = 'Add To Cart';
-        Add_To_Cart.style.borderRadius="10px"
-        Add_To_Cart.style.marginLeft="10px"
-        Add_To_Cart.style.backgroundColor="skyblue"
+            // const Add_To_Cart = document.createElement('button');
+            // Add_To_Cart.textContent = 'Add To Cart';
+            // Add_To_Cart.style.borderRadius="10px"
+            // Add_To_Cart.style.marginLeft="10px"
+            // Add_To_Cart.style.backgroundColor="skyblue"
         
 
         productCard.appendChild(image);
@@ -48,7 +44,7 @@ function renderProducts(productList) {
         productCard.appendChild(use);
         productCard.appendChild(price);
         productCard.appendChild(buyNow);
-        productCard.appendChild(Add_To_Cart);
+        // productCard.appendChild(Add_To_Cart);
 
         productContainer.appendChild(productCard);
         
@@ -65,7 +61,7 @@ async function searchProducts(){
             renderProducts([]);
             return;
         }
-        console.log(searchTerm)
+        // console.log(searchTerm)
         const searchResults = product.filter(prod =>
             prod.name.toLowerCase().includes(searchTerm) ||
             prod.use.toLowerCase().includes(searchTerm) ||
@@ -73,15 +69,17 @@ async function searchProducts(){
             prod.name.toLowerCase().includes(searchTerm.substring(0,4))||
             prod.name.toLowerCase().includes(searchTerm.substring(0,2))
         );
-            console.log(searchTerm.substring(0,4))
+            // console.log(searchTerm.substring(0,4))
         renderProducts(searchResults);
 }
-
+searchProducts()
     // Initial rendering of all products
 async function initial(){
-      const response=await fetch(url);
-      const data=await response.json()
-      console.log(data)
-      renderProducts(data);
+    const response=await fetch(url);  
+    const data=await response.json()    //WITH FETCH WE WILL USE .JSON() KEYWORD TO TAKE OUT DATA FROM RESPONSE
+    console.log(data)  
+    renderProducts(data);             //BUT WITH AXIOS WE NEED TO ISE RESPONSE.DATA TO FETCH OUT DATA
 }
-// initial()        //suddenly this option is closed to run this just call initial funcrion
+//initial()        //suddenly this option is closed to run this just call initial funcrion
+// Assuming you are running this code in a web browser environment or using a tool like Node.js
+
