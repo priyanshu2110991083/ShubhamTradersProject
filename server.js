@@ -5,8 +5,15 @@ const sch=require("./models/userData.js")
 const str=require("./models/storeData.js")
 mongoose.connect("mongodb://127.0.0.1:27017/ShubhamTraders")
 const cors=require("cors")
+const session=require("express-session")
 const bcrypt=require("bcrypt")
+//authentication
+//stateful and stateless
+//statefull -> which maintain data on server side and stateless -> which has no state
 
+app.use(session({
+    secret:"this is my secret",
+}))
 
 
 async function main() {
@@ -37,35 +44,43 @@ app.get("/strs",async (req,res)=>{
     res.send(notes)
 })
 app.get("/",(req,res)=>{
+    req.session.logged_In=true;
     res.sendFile(__dirname+"/index.html");
 })
-
+app.get("/logout",(req,res)=>{
+    req.session.logged_In=false;
+    res.cookie("logged_In",req.session.logged_In)
+    res.sendFile(__dirname+"/public/index.html")
+})
 app.post("/login",async (req,res)=>{
     const database=await sch.find()
     const data=req.body;
     if(!data.username || !data.password ){
         res.send("pls enter correct username and password")
+        return;
     }
-    let f=0;
+    let f=1;
     const userTry=(await sch.find().where('username').equals(data.username))[0] ;
-    console.log(userTry)
-    const isTrue=await bcrypt.compare(data.password, userTry.password)
+    let isTrue=false;
+    if(userTry)
+        isTrue=await bcrypt.compare(data.password, userTry.password)
 
-    if(isTrue && userTry){
-        f=1;
-        res.send("Logged In")
-    }
     if(userTry && isTrue==false){
-        f=1;
+        f=0;
         res.send("Enter Correct Password")
+        return;
     }
-
-    if(f==0){
-
+    if(!userTry){
         res.send("please register first")
+        return;
     }
+req.session.logged_In=true;
+req.session.username=data.username;
+res.cookie("username",req.session.username)
+res.cookie("logged_In",req.session.logged_In)
+res.sendFile(__dirname+"/public/index.html")
+    
 })
-
 //for resetting
 app.get("/PassReset.html",(req,res)=>{
     res.sendFile(__dirname+"/PassReset.html");
@@ -163,4 +178,16 @@ app.get("/add",async (req,res)=>{
     await str.create(object)
     res.send("added")
 })
+
+function checkLogin(req, res, next) {
+    if (req.session.logged_In) {
+        next();
+    } else {
+        res.send("Please login");
+    }
+}
+app.post("/payment",checkLogin,(req,res)=>{
+    res.sendFile(__dirname+"/public/Payment.html")
+})
+
 

@@ -2,6 +2,52 @@ const url = "http://localhost:300/strs"
 
 const productContainer = document.getElementById('product-container');
 const searchInput = document.getElementById('search-input');
+const del1=document.getElementById("del1");
+const del2=document.getElementById("del2");
+const name1=document.getElementById("name1");
+const name2=document.getElementById("name2");
+const add=document.getElementById("add");
+add.style.display="none";
+//initially name ki display none rhegi
+name1.style.display="none";
+name2.style.display="none";
+
+// const username = document.cookie.get('username');
+
+//below funcrion is to take cookie data as cookie comes in another format so we need to reduce it in simple format
+var getCookies = function(){
+    var pairs = document.cookie.split(";");
+    var cookies = {};
+    for (var i=0; i<pairs.length; i++){
+      var pair = pairs[i].split("=");
+      cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+    }
+    return cookies;
+  }
+
+const h1 = document.getElementById("loginUser")
+const cookies = getCookies();
+console.log(cookies)
+if((cookies.username.toLowerCase()=="priyanshu" || cookies.username.toLowerCase()=="tarun") && cookies.logged_In=="true"){
+    add.style.display="block"
+    del1.style.display="none"
+    del2.style.display="none"
+    h1.innerText = cookies.username;
+}
+if (cookies.username && cookies.logged_In=="true") {
+    name1.style.display="block"
+    name2.style.display="block"
+    del1.style.display="none"
+    del2.style.display="none"
+    h1.innerText = cookies.username;
+    
+} 
+else {
+    name1.style.display="none"
+    name2.style.display="none"
+    del1.style.display="block"
+    del2.style.display="block"
+}
 
 function renderProducts(productList) {
 
@@ -28,10 +74,13 @@ function renderProducts(productList) {
         const price = document.createElement('p');
         price.textContent = `₹${product.price.toFixed(2)}`;
 
-        const buyNow = document.createElement('a');
-        buyNow.href = "Payment.html";
+        const buyNow = document.createElement('button');
         buyNow.textContent = 'Buy Now';
         
+        const form=document.createElement("form")
+        form.action="/payment"
+        form.method="post"
+        form.appendChild(buyNow)
             // const Add_To_Cart = document.createElement('button');
             // Add_To_Cart.textContent = 'Add To Cart';
             // Add_To_Cart.style.borderRadius="10px"
@@ -43,7 +92,7 @@ function renderProducts(productList) {
         productCard.appendChild(name);
         productCard.appendChild(use);
         productCard.appendChild(price);
-        productCard.appendChild(buyNow);
+        productCard.appendChild(form);
         // productCard.appendChild(Add_To_Cart);
 
         productContainer.appendChild(productCard);
