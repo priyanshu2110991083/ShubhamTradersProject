@@ -3,76 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stationery Products</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1em;
-        }
-
-        section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-
-        .product {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 10px;
-            padding: 20px;
-            width: 300px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .product img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-    </style>
+    <title>Random Number Generator</title>
 </head>
 <body>
-    <header>
-        <h1>Stationery Products</h1>
-        <p>Explore our range of high-quality stationary items.</p>
-    </header>
+    <script>
+        function generateRandomNumber() {
+            // Generate a random number between 10000 and 99999
+            var randomNumber = Math.floor(10000 + Math.random() * 90000);
 
-    <section>
-        <div class="product">
-            <img src="pen.jpg" alt="Pen">
-            <h2>Classic Ballpoint Pen</h2>
-            <p>A reliable ballpoint pen suitable for everyday writing tasks. Black ink and a comfortable grip.</p>
-            <p>Price: $5.99</p>
-        </div>
+            // Display the generated number
+            console.log("Random 5-digit number:", randomNumber);
 
-        <div class="product">
-            <img src="notebook.jpg" alt="Notebook">
-            <h2>Leather-Bound Notebook</h2>
-            <p>Record your thoughts and ideas in this elegant leather-bound notebook. 200 pages of high-quality paper.</p>
-            <p>Price: $12.99</p>
-        </div>
+            // You can use the generated number as needed in your application
+        }
 
-        <div class="product">
-            <img src="pencil.jpg" alt="Pencil">
-            <h2>Artist's Sketching Pencil Set</h2>
-            <p>A set of professional-grade pencils for artists and sketching enthusiasts. Various lead grades included.</p>
-            <p>Price: $9.99</p>
-        </div>
-
-        <!-- Add more products as needed -->
-
-    </section>
+        // Call the function to generate the random number
+        generateRandomNumber();
+    </script>
 </body>
 </html>

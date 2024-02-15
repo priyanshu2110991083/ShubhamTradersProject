@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style2.css">
+    <title>Login Form</title>
+</head>
+<body>
+    <div class="container mm">
+        <div class="image-container">
+            <!-- You can replace the image URL with your own random image -->
+            <img class="random-image" src="login.jpg" alt="Random Image">
+            <div class="text-overlay">Shubham Traders</div>
+        </div>
+        <div class="form-container">
+            <form method="post" action="verify">
+                <label for="name">Enter OTP:</label>
+                <input type="text" id="name" name="OTP" required>
+
+                <button type="submit">Submit</button>
+                
+            </form>
+            <form action="ResendOTP" method="post"> 
+             <div class="options">
+                 <button type="submit">Resend OTP</button>
+             </div>
+         </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -7,6 +7,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/ShubhamTraders")
 const cors=require("cors")
 const session=require("express-session")
 const bcrypt=require("bcrypt")
+const nodemailer=require("nodemailer")
+require("dotenv").config()
 //authentication
 //stateful and stateless
 //statefull -> which maintain data on server side and stateless -> which has no state
@@ -111,6 +113,8 @@ app.post("/reset",async (req,res)=>{
 
 
 //saving in database
+//saving data on variable so that after checking otp we can store in data base
+var MainData;
 app.post("/register", async (req,res)=>{
     const database = await sch.find();
     const data=req.body;
@@ -125,27 +129,90 @@ app.post("/register", async (req,res)=>{
             if(data.username==database[i].username){
                 bo=true;
                 res.send("user name not available, use another username")
-                break;
+                return;
             }
             if(data.email==database[i].email){
                 bo=true;
                 res.send("Account already exist with this email");
-                break;
+                return;
             }
         }
         if(!data.password.includes("@") || !data.password.includes("_") || data.password.toString().length<8){
             bo=true;
             res.send("Use Strong Password, use underscores '_' and '@' in it and length must > 8");
+            return;
         }
         if(bo==false){
+            SendMail(data.email);
+            res.sendFile(__dirname+"/public/OTP.html");
             const saltRound=10  //it will encrypt password 10 times
             const hashedPwd=await bcrypt.hash(data.password,saltRound)
             data.password=hashedPwd
-            await sch.create(data);
-            res.send("Registered");
+            MainData=data;
+            //we will not store data here in database 
+            //when user get varified the we'll store its data in database
+            // await sch.create(data);
         }
     }
 })
+
+//nodemailer
+const transporter=nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:'priyanshugarg2509@gmail.com',
+        pass:process.env.PASS
+    }
+})
+
+
+//we need to generate random otp with 5 digits so we will run javascript here
+function generateRandomNumber() {
+    // Generate a random number between 10000 and 99999
+    // You can use the generated number as needed in your application
+    var randomNumber = Math.floor(10000 + Math.random() * 90000);
+    return randomNumber;
+
+}
+var OTP;    //otp variable to store otp so that we can use it in other function also
+// Call the function to generate the random number
+//send mail function
+function SendMail(mailID){
+    OTP=generateRandomNumber();
+    const mail={
+        to:mailID,
+        from:'priyanshugarg2509@gmail.com',
+        subject:"One Time Password To Register In Shubham Traders",
+        html:`<p>${OTP}</p>`+"Do not share this one time password with anyone"
+    }
+    transporter.sendMail(mail)
+}
+
+//checking that entered otp is correct or not
+app.post("/verify",async (req,res)=>{
+    const data=req.body;
+    const otp=data.OTP;
+    if(otp==OTP) {
+        await sch.create(MainData)
+        req.session.logged_In=true;
+        req.session.username=MainData.username;
+        res.cookie("username",req.session.username)
+        res.cookie("logged_In",req.session.logged_In)
+        res.sendFile(__dirname+"/public/index.html")
+        return;
+    }
+    else{
+        res.send("Wrong OTP");
+        return;
+    }
+})
+
+//resend otp (Not Working)
+app.post("/ResendOTP",(req,res)=>{
+    SendMail(MainData.email)
+    res.send("otp Resend")
+})
+
 
 app.post("/access",(req,res)=>{
   const data=req.body;
