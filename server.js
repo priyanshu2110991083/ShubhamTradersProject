@@ -253,8 +253,8 @@ function checkLogin(req, res, next) {
         res.send("Please login");
     }
 }
-app.post("/payment",checkLogin,(req,res)=>{
-    res.sendFile(__dirname+"/public/Payment.html")
-})
+// app.post("/payment",checkLogin,(req,res)=>{
+//     res.sendFile(__dirname+"/public/Payment.html")
+// })
 
 

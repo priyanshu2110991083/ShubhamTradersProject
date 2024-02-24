@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Number Generator</title>
+    <title>Document</title>
 </head>
 <body>
+    
     <script>
-        function generateRandomNumber() {
-            // Generate a random number between 10000 and 99999
-            var randomNumber = Math.floor(10000 + Math.random() * 90000);
-
-            // Display the generated number
-            console.log("Random 5-digit number:", randomNumber);
-
-            // You can use the generated number as needed in your application
-        }
-
-        // Call the function to generate the random number
-        generateRandomNumber();
+        localStorage.setItem("username","Priyanshu")
+        localStorage.setItem("pass","123")
+        console.log(localStorage.getItem("username"))
+        console.log(localStorage.getItem("pass"))
     </script>
 </body>
 </html>

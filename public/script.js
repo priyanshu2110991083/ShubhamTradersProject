@@ -6,8 +6,12 @@ const del1=document.getElementById("del1");
 const del2=document.getElementById("del2");
 const name1=document.getElementById("name1");
 const name2=document.getElementById("name2");
-const add=document.getElementById("add");
-add.style.display="none";
+const add1=document.getElementById("add1");
+const add2=document.getElementById("add2");
+const cart=document.getElementById("cart")
+add1.style.display="none";
+add2.style.display="none";
+cart.style.display="none"
 //initially name ki display none rhegi
 name1.style.display="none";
 name2.style.display="none";
@@ -29,7 +33,8 @@ const h1 = document.getElementById("loginUser")
 const cookies = getCookies();
 console.log(cookies)
 if((cookies.username.toLowerCase()=="priyanshu" || cookies.username.toLowerCase()=="tarun") && cookies.logged_In=="true"){
-    add.style.display="block"
+    add1.style.display="block"
+    add2.style.display="block"
     del1.style.display="none"
     del2.style.display="none"
     h1.innerText = cookies.username;
@@ -40,7 +45,7 @@ if (cookies.username && cookies.logged_In=="true") {
     del1.style.display="none"
     del2.style.display="none"
     h1.innerText = cookies.username;
-    
+    cart.style.display="block"
 } 
 else {
     name1.style.display="none"
@@ -49,16 +54,53 @@ else {
     del2.style.display="block"
 }
 
+//adding to local host
+if (cookies.username && cookies.logged_In === "true") {
+    localStorage.setItem("username", cookies.username);
+
+    // Fetch existing product IDs array from local storage
+    var ProductArray = JSON.parse(localStorage.getItem("ProductArray")) || [];
+
+    // Add a click event listener to the container holding all items
+    document.addEventListener('click', async function (event) {
+        const target = event.target;
+
+        // Check if the clicked element is the "Buy Now" button
+        if (target.classList.contains('buyNow')) {
+            const response = await fetch(url);
+            const data = await response.json();
+            const itemId = target.parentNode.id;
+            const product = getProductById(data, itemId);
+
+            // Add the product ID to the array
+            ProductArray.push(product._id);
+
+            // Update local storage with the modified array
+            localStorage.setItem("ProductArray", JSON.stringify(ProductArray));
+        }
+    });
+} else {
+    localStorage.clear();
+}
+
+
+
+
+//finding products
+function getProductById(products, productId) {
+    return products.find(product => product._id === productId);
+}
+
+
 function renderProducts(productList) {
 
-    productList.forEach(p => console.log(p)); 
     
     productContainer.innerHTML = '';
 
     productList.forEach(product => {
         const productCard = document.createElement('div');
         productCard.classList.add('col-md-4');
-
+        productCard.id=product._id;
         const image = document.createElement('img');
         image.src = product.image;
         image.alt = product.name;
@@ -76,11 +118,12 @@ function renderProducts(productList) {
 
         const buyNow = document.createElement('button');
         buyNow.textContent = 'Buy Now';
+        buyNow.classList.add("buyNow")
         
-        const form=document.createElement("form")
-        form.action="/payment"
-        form.method="post"
-        form.appendChild(buyNow)
+        // const form=document.createElement("form")
+        // form.action="/payment"
+        // form.method="post"
+        // form.appendChild(buyNow)
             // const Add_To_Cart = document.createElement('button');
             // Add_To_Cart.textContent = 'Add To Cart';
             // Add_To_Cart.style.borderRadius="10px"
@@ -92,7 +135,7 @@ function renderProducts(productList) {
         productCard.appendChild(name);
         productCard.appendChild(use);
         productCard.appendChild(price);
-        productCard.appendChild(form);
+        productCard.appendChild(buyNow);
         // productCard.appendChild(Add_To_Cart);
 
         productContainer.appendChild(productCard);
@@ -126,7 +169,7 @@ searchProducts()
 async function initial(){
     const response=await fetch(url);  
     const data=await response.json()    //WITH FETCH WE WILL USE .JSON() KEYWORD TO TAKE OUT DATA FROM RESPONSE
-    console.log(data)  
+
     renderProducts(data);             //BUT WITH AXIOS WE NEED TO ISE RESPONSE.DATA TO FETCH OUT DATA
 }
 //initial()        //suddenly this option is closed to run this just call initial funcrion

@@ -14,6 +14,10 @@ const store=mongoose.Schema({
         type:String,
         required:true
     },
+    // available:{
+    //     type:Boolean,
+    //     required:true
+    // },
     buyNow:String
 })
 

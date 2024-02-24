@@ -1,0 +1,143 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.product {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    flex: 1;
+    padding: 20px;
+}
+
+.product-image img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.product-details {
+    flex: 2;
+    padding: 20px;
+}
+
+.product h2 {
+    color: #333;
+}
+
+.product p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.price-quantity {
+    display: flex;
+    align-items: center;
+}
+
+#price, #quantity, #total {
+    margin-right: 10px;
+}
+
+.add-to-cart, .delete-from-cart {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover, .delete-from-cart:hover {
+    background-color: #45a049;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.cart-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-summary {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cart-summary-info {
+    font-size: 18px;
+    color: #333;
+}
+
+.cart-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.cart-item {
+    width: 48%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cart-item-details {
+    margin-top: 10px;
+}
+
+.cart-item-details h2 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.cart-item-details p {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0;
+}
+
+.total-price {
+    text-align: right;
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.cart-empty-message {
+    text-align: center;
+    font-size: 20px;
+    color: #555;
+    margin-top: 50px;
+}
