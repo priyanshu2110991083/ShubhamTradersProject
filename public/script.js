@@ -9,12 +9,14 @@ const name2=document.getElementById("name2");
 const add1=document.getElementById("add1");
 const add2=document.getElementById("add2");
 const cart=document.getElementById("cart")
+const order=document.getElementById("order")
+//initially name ki display none rhegi
 add1.style.display="none";
 add2.style.display="none";
 cart.style.display="none"
-//initially name ki display none rhegi
 name1.style.display="none";
 name2.style.display="none";
+order.style.display="none";
 
 // const username = document.cookie.get('username');
 
@@ -32,14 +34,17 @@ var getCookies = function(){
 const h1 = document.getElementById("loginUser")
 const cookies = getCookies();
 console.log(cookies)
-if((cookies.username.toLowerCase()=="priyanshu" || cookies.username.toLowerCase()=="tarun") && cookies.logged_In=="true"){
+if((cookies.username.toLowerCase()==="priyanshu" || cookies.username.toLowerCase()==="tarun") && cookies.logged_In=="true"){
     add1.style.display="block"
     add2.style.display="block"
     del1.style.display="none"
     del2.style.display="none"
     h1.innerText = cookies.username;
+    name1.style.display="block"
+    name2.style.display="block"
+    order.style.display="block"
 }
-if (cookies.username && cookies.logged_In=="true") {
+else if (cookies.username && cookies.logged_In=="true") {
     name1.style.display="block"
     name2.style.display="block"
     del1.style.display="none"
@@ -53,6 +58,8 @@ else {
     del1.style.display="block"
     del2.style.display="block"
 }
+
+
 
 //adding to local host
 if (cookies.username && cookies.logged_In === "true") {
@@ -71,12 +78,25 @@ if (cookies.username && cookies.logged_In === "true") {
             const data = await response.json();
             const itemId = target.parentNode.id;
             const product = getProductById(data, itemId);
-
+            console.log(product,"p")
+            console.log(ProductArray, "a")
             // Add the product ID to the array
-            ProductArray.push(product._id);
+            const duplicateIndex=ProductArray.findIndex(e => e.product._id===product._id)
+            console.log(duplicateIndex)
+            if(duplicateIndex!=-1){
+                ProductArray[duplicateIndex].userQuantity++;
+            }
+            else{
+
+                ProductArray.push({
+                    product,
+                    userQuantity:1,
+                });
+            }
 
             // Update local storage with the modified array
             localStorage.setItem("ProductArray", JSON.stringify(ProductArray));
+            window.alert("Item Added to Cart")
         }
     });
 } else {
@@ -117,9 +137,9 @@ function renderProducts(productList) {
         price.textContent = `₹${product.price.toFixed(2)}`;
 
         const buyNow = document.createElement('button');
-        buyNow.textContent = 'Buy Now';
+        buyNow.textContent = 'Add To Cart';
         buyNow.classList.add("buyNow")
-        
+        buyNow.id="addToCart"
         // const form=document.createElement("form")
         // form.action="/payment"
         // form.method="post"
@@ -140,7 +160,9 @@ function renderProducts(productList) {
 
         productContainer.appendChild(productCard);
         
+        
     });
+
 }
 
 
@@ -162,6 +184,7 @@ async function searchProducts(){
             prod.name.toLowerCase().includes(searchTerm.substring(0,2))
         );
             // console.log(searchTerm.substring(0,4))
+           
         renderProducts(searchResults);
 }
 searchProducts()

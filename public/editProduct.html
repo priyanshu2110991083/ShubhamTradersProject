@@ -54,8 +54,34 @@
 
     <script>
         async function fetchProducts() {
-            // ... (your existing fetchProducts code)
+        const productName = document.getElementById('productName').value;
+        const response = await fetch('/fetch-products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `productName=${productName}`,
+        });
+
+        const products = await response.json();
+
+        const productListDiv = document.getElementById('productList');
+        productListDiv.innerHTML = '';
+
+        if (products.length > 0) {
+            for (const product of products) {
+                const productDiv = document.createElement('div');
+                productDiv.innerHTML = `
+                    <p>Name: ${product.name}</p>
+                    <p>Price: ${product.price}</p>
+                    <button onclick="editProduct('${product._id}')">Edit</button>
+                `;
+                productListDiv.appendChild(productDiv);
+            }
+        } else {
+            productListDiv.innerHTML = '<p>No products found.</p>';
         }
+    }
 
         async function editProduct(productId) {
             // Show the modal with the message and "Edit Now" button
@@ -70,17 +96,15 @@
         }
 
         function editNow() {
-            // Get the productId from the hidden input field
-            const hiddenInput = document.getElementById('hiddenProductId');
-            const productId = hiddenInput.value;
+        // Get the productId from the hidden input field
 
-            // Implement the code to handle the "Edit Now" button click
-            console.log(`Edit product with ID: ${productId}`);
+        // Send a GET request to Admin_Word.html with productId as a query parameter
+        window.location.href = `Admin_Word.html`;
 
-            // Close the modal
-            const modal = document.getElementById('editModal');
-            modal.style.display = 'none';
-        }
+        // Close the modal
+        const modal = document.getElementById('editModal');
+        modal.style.display = 'none';
+    }
     </script>
 
 </body>

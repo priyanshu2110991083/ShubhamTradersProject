@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Update</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/update" method="post">
+        <label for="productNameOption">Product Id:</label>
+        <input type="text" id="productName" name="productId" placeholder="New Product Id" >
+
+        <label for="availabilityOption">Availability:</label>
+        <select id="availability" name="availability">
+            <option value="in_stock" selected>In Stock</option>
+            <option value="out_of_stock">Out of Stock</option>
+        </select>
+
+        <label for="quantityOption">Quantity:</label>
+        <select id="quantityOption" name="quantityOption" onchange="toggleInput('quantity')">
+            <option value="change">Change</option>
+            <option value="no_change" selected>No Change</option>
+        </select>
+        <input type="number" id="quantity" name="quantity" placeholder="New Quantity" style="display:none;">
+
+        <label for="imageURLOption">Image URL:</label>
+        <select id="imageURLOption" name="imageURLOption" onchange="toggleInput('imageURL')">
+            <option value="change">Change</option>
+            <option value="no_change" selected>No Change</option>
+        </select>
+        <input type="text" id="imageURL" name="imageURL" placeholder="New Image URL" style="display:none;">
+
+        <label for="priceOption">Price:</label>
+        <select id="priceOption" name="priceOption" onchange="toggleInput('price')">
+            <option value="change">Change</option>
+            <option value="no_change" selected>No Change</option>
+        </select>
+        <input type="number" id="price" name="price" step="0.01" placeholder="New Price" style="display:none;">
+
+        <button type="submit">Update Product</button>
+    </form>
+
+    <script>
+        function toggleInput(fieldName) {
+            var optionValue = document.getElementById(fieldName + 'Option').value;
+            var inputField = document.getElementById(fieldName);
+
+            if (optionValue === 'change') {
+                inputField.style.display = 'block';
+            } else {
+                inputField.style.display = 'none';
+            }
+        }
+
+        
+    </script>
+
+</body>
+</html>

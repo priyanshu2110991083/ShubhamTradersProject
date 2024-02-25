@@ -13,6 +13,24 @@ require("dotenv").config()
 //stateful and stateless
 //statefull -> which maintain data on server side and stateless -> which has no state
 
+//JUST TO UPDATE MONGODB
+// const updateDocuments = async () => {
+//     try {
+//         // Update all documents to include the new fields with their default values
+//         const result = await str.updateMany({}, { $set: { available: 'true', quantity: 5 } });
+
+//         console.log(`${result.nModified} documents updated successfully`);
+//     } catch (error) {
+//         console.error('Error updating documents:', error);
+//     }
+// };
+
+// Call the function to update documents
+// updateDocuments();
+
+// Call the function to update documents
+// updateDocuments();
+
 app.use(session({
     secret:"this is my secret",
 }))
@@ -48,6 +66,9 @@ app.get("/strs",async (req,res)=>{
 app.get("/",(req,res)=>{
     req.session.logged_In=true;
     res.sendFile(__dirname+"/index.html");
+})
+app.get("/edit",(req,res)=>{
+    res.sendFile(__dirname+"/public/editProduct.html");
 })
 app.get("/logout",(req,res)=>{
     req.session.logged_In=false;
@@ -253,8 +274,57 @@ function checkLogin(req, res, next) {
         res.send("Please login");
     }
 }
-// app.post("/payment",checkLogin,(req,res)=>{
-//     res.sendFile(__dirname+"/public/Payment.html")
-// })
+
+
+
+
+app.post('/fetch-products', async (req, res) => {
+    try {
+        const productName = req.body.productName;
+        const products = await str.find({ name: { $regex: new RegExp(productName, 'i') } });
+        res.json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.post("/payment",(req,res)=>{
+    res.sendFile(__dirname+"/public/Payment.html")
+})
+
+app.post("/update",async (req,res)=>{
+    const data=req.body;
+    const database=await str.find()
+    const item=await str.findOne().where('_id').equals(data.productId);
+    if(item){
+        if(data.availability==="In Stock"){
+           item.availability=true;
+        }
+        else if(data.availability==="Out of Stock"){
+            item.availability=false;
+        }
+
+        if(data.quantityOption==="change"){
+            item.quantity=data.quantity;
+        }
+        if(data.imageURLOption==="change") {
+            item.image=data.imageURL
+        }
+        if(data.priceOption==="change"){
+            item.price=data.price;
+        }
+
+    }
+    else{
+        res.send("No Item Found With This ID")
+        return;
+    }
+    await item.save()
+    res.send("Item Updated Successfully")
+})
+
+
+
 
 
