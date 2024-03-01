@@ -78,15 +78,12 @@ if (cookies.username && cookies.logged_In === "true") {
             const data = await response.json();
             const itemId = target.parentNode.id;
             const product = getProductById(data, itemId);
-            console.log(product,"p")
-            console.log(ProductArray, "a")
             // Add the product ID to the array
             const duplicateIndex=ProductArray.findIndex(e => e.product._id===product._id)
-            console.log(duplicateIndex)
             if(duplicateIndex!=-1){
                 ProductArray[duplicateIndex].userQuantity++;
             }
-            else{
+            else {
 
                 ProductArray.push({
                     product,
@@ -100,7 +97,16 @@ if (cookies.username && cookies.logged_In === "true") {
         }
     });
 } else {
+    document.addEventListener('click', async function (event) {
+        const target = event.target;
+        if(target.classList.contains('buyNow')){
+            window.alert("Please Login First")
+        }
+    });
+    const username=localStorage.getItem("username");
+    const thing=JSON.parse(localStorage.getItem("ProductArray"))
     localStorage.clear();
+    
 }
 
 
@@ -118,49 +124,53 @@ function renderProducts(productList) {
     productContainer.innerHTML = '';
 
     productList.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('col-md-4');
-        productCard.id=product._id;
-        const image = document.createElement('img');
-        image.src = product.image;
-        image.alt = product.name;
-        image.style.maxWidth = '100%';
-        image.style.maxHeight = '50%';
+            if(product.available==true){
 
-        const name = document.createElement('h3');
-        name.textContent = product.name;
-
-        const use = document.createElement('p');
-        use.textContent = product.use;
-
-        const price = document.createElement('p');
-        price.textContent = `₹${product.price.toFixed(2)}`;
-
-        const buyNow = document.createElement('button');
-        buyNow.textContent = 'Add To Cart';
-        buyNow.classList.add("buyNow")
-        buyNow.id="addToCart"
-        // const form=document.createElement("form")
-        // form.action="/payment"
-        // form.method="post"
-        // form.appendChild(buyNow)
-            // const Add_To_Cart = document.createElement('button');
-            // Add_To_Cart.textContent = 'Add To Cart';
-            // Add_To_Cart.style.borderRadius="10px"
-            // Add_To_Cart.style.marginLeft="10px"
-            // Add_To_Cart.style.backgroundColor="skyblue"
+                const productCard = document.createElement('div');
+                productCard.classList.add('col-md-4');
+                productCard.id=product._id;
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.name;
+                image.style.maxWidth = '100%';
+                image.style.maxHeight = '50%';
+                
+                const name = document.createElement('h3');
+                name.textContent = product.name;
+                
+                const use = document.createElement('p');
+                use.textContent = product.use;
+                
+                const price = document.createElement('p');
+                price.textContent = `₹${product.price.toFixed(2)}`;
+                
+                const buyNow = document.createElement('button');
+                buyNow.textContent = 'Add To Cart';
+                buyNow.classList.add("buyNow")
+                buyNow.id="addToCart"
+                // const form=document.createElement("form")
+                // form.action="/payment"
+                // form.method="post"
+                // form.appendChild(buyNow)
+                // const Add_To_Cart = document.createElement('button');
+                // Add_To_Cart.textContent = 'Add To Cart';
+                // Add_To_Cart.style.borderRadius="10px"
+                // Add_To_Cart.style.marginLeft="10px"
+                // Add_To_Cart.style.backgroundColor="skyblue"
+                
+                
+                productCard.appendChild(image);
+                productCard.appendChild(name);
+                productCard.appendChild(use);
+                productCard.appendChild(price);
+                productCard.appendChild(buyNow);
+                // productCard.appendChild(Add_To_Cart);
+                
+                productContainer.appendChild(productCard);
+                
+            }
         
-
-        productCard.appendChild(image);
-        productCard.appendChild(name);
-        productCard.appendChild(use);
-        productCard.appendChild(price);
-        productCard.appendChild(buyNow);
-        // productCard.appendChild(Add_To_Cart);
-
-        productContainer.appendChild(productCard);
-        
-        
+            
     });
 
 }

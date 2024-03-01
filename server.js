@@ -298,13 +298,13 @@ app.post("/update",async (req,res)=>{
     const database=await str.find()
     const item=await str.findOne().where('_id').equals(data.productId);
     if(item){
-        if(data.availability==="In Stock"){
-           item.availability=true;
+        if(data.availability==="in_stock"){
+           item.available=true;
         }
-        else if(data.availability==="Out of Stock"){
-            item.availability=false;
+        else if(data.availability==="out_of_stock"){
+            item.available=false;
         }
-
+        
         if(data.quantityOption==="change"){
             item.quantity=data.quantity;
         }

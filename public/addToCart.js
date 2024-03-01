@@ -94,16 +94,45 @@ if (cookies.logged_In == "true" && cookies.username && productIds.length > 0) {
             const label = document.createElement("label");
             label.for = "quantity";
             
+           
             const input = document.createElement("input");
             input.type = "number";
             input.id = "quantity";
             input.name = "quantity";
             input.min = "1";
             input.value = productId.userQuantity;
-            input.addEventListener('input', function () {
-                
-                updateTotal(data.price, parseInt(input.value),data._id);
-            });
+            const maxQuantity = productId.product.quantity; // Change this to your desired maximum quantity
+
+        input.addEventListener('input', function () {
+            // Parse the input value to an integer
+            let quantity = parseInt(input.value);
+
+            // Check if the quantity exceeds the maximum allowed
+            if (quantity > maxQuantity) {
+                // If it does, set it to the maximum allowed quantity
+                quantity = maxQuantity;
+                input.value = quantity;
+
+                const errorMessage = document.getElementById('error-message');
+                if (!errorMessage) {
+                    const message = document.createElement('p');
+                    message.id = 'error-message';
+                    message.style.color = 'red';
+                    message.textContent = `Only ${maxQuantity} in stock`;
+                    input.parentNode.appendChild(message);
+                }
+            }
+            else {
+                // If the quantity is within the allowed range, remove the error message
+                const errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.parentNode.removeChild(errorMessage);
+                }
+            }
+
+            // Call your updateTotal function with the updated quantity
+            updateTotal(data.price, quantity, data._id);
+        });
             
             price_quantity.appendChild(price);
             price_quantity.appendChild(label);
@@ -204,6 +233,9 @@ function createPaymentForm(grandPrice) {
 
     // Append the grand total div to the body
     document.body.appendChild(grandTotalDiv);
+
+    const product=JSON.parse(localStorage.getItem("ProductArray")) || [];
+    const user=localStorage.getItem("username")
 }
 
 // Check if the body contains a div with class "container" after asynchronous function
